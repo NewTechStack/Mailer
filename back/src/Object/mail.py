@@ -14,7 +14,9 @@ class Mail(Rethink):
             "subject": None,
             "html": None,
             "status": [],
-            "last_update": None
+            "last_update": None,
+            "sent": False,
+            "retry": 0
         }
         self.data = None
 
@@ -29,7 +31,9 @@ class Mail(Rethink):
             "to": doc['to'],
             "subject": doc['subject'],
             "status": doc['status'],
-            "last_update": doc['last_update']
+            "last_update": doc['last_update'],
+            "sent": doc['sent'],
+            "retry": doc['retry']
         }
         if expand:
             func_map = lambda doc: {
@@ -38,7 +42,9 @@ class Mail(Rethink):
                 "subject": doc['subject'],
                 "status": doc['status'],
                 "html": doc['html'],
-                "last_update": doc['last_update']
+                "last_update": doc['last_update'],
+                "sent": doc['sent'],
+                "retry": doc['retry']
             }
         ret = list(
                 self.conn.map(
